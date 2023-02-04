@@ -5,10 +5,28 @@ import { Animated,  Dimensions } from 'react-native';
 import { Constants } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 
+const getData = async () => {
+  try {
+    const jsonValue = await AsyncStorage.getItem('@storage_Key')
+    return jsonValue != null ? JSON.parse(jsonValue) : null;
+  } catch(e) {
+    console.log("Error retrieving");
+  }
+}
 
+const storeData = async (value, storage_Key) => {
+  try {
+     const jsonValue = JSON.stringify(value)
+     console.log("Data stored", value)
+     await AsyncStorage.setItem(storage_Key, jsonValue)
+   } catch (e) {
+     // saving error
+   }
+ }
 
 const OnBoardingPage = ({ navigation }) => {
   return (
@@ -33,19 +51,27 @@ const Page1 = ({ navigation }) => {
                 <Button
           style={OnboardingStyles.button}
                   title="3 Days"
-                  onPress={() => navigation.navigate('Page2')}
-                  
+                  onPress={() => {
+                    storeData({"Per week":3}, 'perWeek');
+                    navigation.navigate('Page2')}
+                  }
                 />
           <Button
           style={OnboardingStyles.button}
             title="5 Days"
-            onPress={() => navigation.navigate('Page2')}
+            onPress={() => {
+              storeData({"Per week" : 5}, 'perWeek');
+              navigation.navigate('Page2')
+            }}
             style={OnboardingStyles.button}
           />
           <Button
           style={OnboardingStyles.button}
             title="7 Days"
-            onPress={() => navigation.navigate('Page2')}
+            onPress={() => {
+              storeData({"Per week" : 7},'perWeek');
+              navigation.navigate('Page2')
+            }}
             style={OnboardingStyles.button}
           />
           </View>
@@ -61,19 +87,29 @@ const Page2 = ({ navigation }) => {
                   <Button
             style={OnboardingStyles.button}
                     title="30 mins"
-                    onPress={() => navigation.navigate('Page3')}
+                    onPress={() => 
+                      {
+                        navigation.navigate('Page3')
+                        storeData({"time": 0.5}, 'time')
+                    }}
                     
                   />
             <Button
             style={OnboardingStyles.button}
               title="1 hour"
-              onPress={() => navigation.navigate('Page3')}
+              onPress={() =>                       {
+                navigation.navigate('Page3')
+                storeData({"time": 1}, 'time')
+              }}
               style={OnboardingStyles.button}
             />
             <Button
             style={OnboardingStyles.button}
               title="1.5 hours"
-              onPress={() => navigation.navigate('Page3')}
+              onPress={() =>                       {
+                navigation.navigate('Page3')
+                storeData({"time": 1.5}, 'time')
+              }}
               style={OnboardingStyles.button}
             />
             </View>
