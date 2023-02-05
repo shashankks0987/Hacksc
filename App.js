@@ -133,7 +133,7 @@ const PlusPage = ({navigation}) => {
                 <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your predicted progress for +15 mins</Text>
                   <BarChart horizontal={true} showBarTops
                     data={{
-                     // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+                      labels: createLabels(dataArray.length),
                       datasets: [
                         {
                           data:
@@ -190,7 +190,7 @@ const MinusPage = ({navigation}) => {
                 <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your predicted progress for -15 mins</Text>
                 <BarChart horizontal={true} showBarTops
                     data={{
-                     // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+                      labels: createLabels(dataArray.length),
                       datasets: [
                         {
                           data:
@@ -231,6 +231,14 @@ const MinusPage = ({navigation}) => {
                 
         );
 }
+function createLabels(length){
+  let labels = Array(length).join(".").split(".");
+  for (let i = 0; i <= length; i+=5) {
+    labels[i] = '+' + i + 'days'
+  }
+  console.log("LBAELS", labels)
+  return labels
+}
 
 const ChartPage = ({ navigation }) => {
   const [dataArray, setDataArray] = useState([0,0,0]);
@@ -248,7 +256,7 @@ const ChartPage = ({ navigation }) => {
                 <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your progress chart</Text>
                 <BarChart horizontal={true} showBarTops
                     data={{
-                     // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+                     labels: createLabels(dataArray.length),
                       datasets: [
                         {
                           data:
