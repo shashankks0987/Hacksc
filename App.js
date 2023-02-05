@@ -7,7 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar, CalendarEvent } from 'react-native-calendar-events';
-import {LineChart} from "react-native-chart-kit";
+import {LineChart, BarChart} from "react-native-chart-kit";
 import { LinearGradient } from 'expo-linear-gradient';
 import InputComponent from './InputComponent';
 import Circle from './CircleComponent';
@@ -131,7 +131,7 @@ const PlusPage = ({navigation}) => {
         return (
                 <View style={chartStyles.container}>
                 <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your predicted progress for +15 mins</Text>
-                  <LineChart
+                  <BarChart horizontal={true} showBarTops
                     data={{
                      // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
                       datasets: [
@@ -139,7 +139,7 @@ const PlusPage = ({navigation}) => {
                           data:
                               dataArray? dataArray : []
                           ,
-                        strokeWidth: 5,
+                        strokeWidth: 50,
                         color: (opacity = 1) => `rgba(57,255,20,1)`
                         }
                       ]
@@ -156,25 +156,15 @@ const PlusPage = ({navigation}) => {
                         backgroundGradientToOpacity:0,
                         backgroundGradientFromOpacity:0,
                       decimalPlaces: 2, // optional, defaults to 2dp
-                      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                      style: {
-                        borderRadius: 16
-                      },
+                      color: (opacity = 1) => `rgba(100, 149, 237, ${opacity})`,
+                      labelColor: (opacity = 1) => "#2D2D2D",
                       propsForDots: {
                         r: "2.5",
-                        strokeWidth: "1",
+                        strokeWidth: "100",
                         stroke: "#ffa726"
                       }
                     }}
-                    bezier
-                    style={{
-                      marginVertical: 16,
-                      borderRadius: 16
-                    }}
-                
                   />
-                <Circle/>
                 <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
                 <AppButton
                   title="Back"
@@ -198,7 +188,7 @@ const MinusPage = ({navigation}) => {
         return (
                 <View style={chartStyles.container}>
                 <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your predicted progress for -15 mins</Text>
-                  <LineChart
+                <BarChart horizontal={true} showBarTops
                     data={{
                      // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
                       datasets: [
@@ -206,8 +196,8 @@ const MinusPage = ({navigation}) => {
                           data:
                               dataArray? dataArray : []
                           ,
-                        strokeWidth: 5,
-                        color: (opacity = 1) => `rgba(255, 0,0,1)`
+                        strokeWidth: 50,
+                        color: (opacity = 1) => `rgba(57,255,20,1)`
                         }
                       ]
                     }}
@@ -219,29 +209,19 @@ const MinusPage = ({navigation}) => {
                     chartConfig={{
                       backgroundColor: "#00000",
                       backgroundGradientFrom: "#15D66F",
-                      backgroundGradientTo: "#75FB7B",
-                    backgroundGradientToOpacity:0,
-                    backgroundGradientFromOpacity:0,
+                      backgroundGradientTo: "#fff",
+                        backgroundGradientToOpacity:0,
+                        backgroundGradientFromOpacity:0,
                       decimalPlaces: 2, // optional, defaults to 2dp
-                      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                      style: {
-                        borderRadius: 16
-                      },
+                      color: (opacity = 1) => `rgba(100, 149, 237, ${opacity})`,
+                      labelColor: (opacity = 1) => "#2D2D2D",
                       propsForDots: {
                         r: "2.5",
-                        strokeWidth: "1",
+                        strokeWidth: "100",
                         stroke: "#ffa726"
                       }
                     }}
-                    bezier
-                    style={{
-                      marginVertical: 16,
-                      borderRadius: 16
-                    }}
-                
                   />
-                <Circle/>
                 <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
                 <AppButton
                   title="Back"
@@ -266,16 +246,16 @@ const ChartPage = ({ navigation }) => {
 
                 <View style={chartStyles.container}>
                 <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your progress chart</Text>
-                  <LineChart
+                <BarChart horizontal={true} showBarTops
                     data={{
-                      labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+                     // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
                       datasets: [
                         {
                           data:
                               dataArray? dataArray : []
                           ,
-                        strokeWidth: 5,
-                        color: (opacity = 1) => `rgba(173,216,230,1)`
+                        strokeWidth: 50,
+                        color: (opacity = 1) => `rgba(57,255,20,1)`
                         }
                       ]
                     }}
@@ -287,29 +267,19 @@ const ChartPage = ({ navigation }) => {
                     chartConfig={{
                       backgroundColor: "#00000",
                       backgroundGradientFrom: "#15D66F",
-                      backgroundGradientTo: "#75FB7B",
-                    backgroundGradientToOpacity:0,
-                    backgroundGradientFromOpacity:0,
-                      decimalPlaces: 1, // optional, defaults to 2dp
-                      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                      labelColor: (opacity = 1) => `rgba(45,45,45, ${opacity})`,
-                      style: {
-                        borderRadius: 16
-                      },
+                      backgroundGradientTo: "#fff",
+                        backgroundGradientToOpacity:0,
+                        backgroundGradientFromOpacity:0,
+                      decimalPlaces: 2, // optional, defaults to 2dp
+                      color: (opacity = 1) => `rgba(100, 149, 237, ${opacity})`,
+                      labelColor: (opacity = 1) => "#2D2D2D",
                       propsForDots: {
                         r: "2.5",
-                        strokeWidth: "1",
+                        strokeWidth: "100",
                         stroke: "#ffa726"
                       }
                     }}
-                    /*bezier
-                    style={{
-                      marginVertical: 16,
-                      borderRadius: 16
-                    }}*/
-                
                   />
-                <Circle/>
                 <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
                 <AppButton
                   title="Add 15 mins everyday"
