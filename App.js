@@ -9,9 +9,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar, CalendarEvent } from 'react-native-calendar-events';
 import { LinearGradient } from 'expo-linear-gradient';
 
-import materialTheme from './constants/Theme';
-import GaButton from './components/Button';
-
 
 const Stack = createStackNavigator();
 
