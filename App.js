@@ -7,15 +7,16 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar, CalendarEvent } from 'react-native-calendar-events';
+import {LineChart} from "react-native-chart-kit";
 import { LinearGradient } from 'expo-linear-gradient';
 
 
 const Stack = createStackNavigator();
 
-const getData = async () => {
+const getData = async (key) => {
   try {
-    const jsonValue = await AsyncStorage.getItem('@storage_Key')
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
+    const jsonValue = await AsyncStorage.getItem(key)
+    return  JSON.parse(jsonValue);
   } catch(e) {
     console.log("Error retrieving");
   }
@@ -33,15 +34,7 @@ const storeData = async (value, storage_Key) => {
 
 
 
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-  Grid
-} from "react-native-chart-kit";
+
 
 
 const currentDate = new Date();
@@ -106,7 +99,13 @@ const Timer = () => {
   );
 };
 
+async function getDataArray() {
+  let weight = await getData('weight');
+  return weight
+}
+
 const ChartPage = ({ navigation }) => {
+  
   return (
           <LinearGradient
             colors={['#43cea2', '#00b0ff']}
@@ -119,14 +118,7 @@ const ChartPage = ({ navigation }) => {
                 labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
                 datasets: [
                   {
-                    data: [
-                      67.8,
-                      67.6,
-                      67.4,
-                      67.2,
-                      67.0,
-                      66.4
-                    ]
+                    data: getDataArray()
                   }
                 ]
               }}
