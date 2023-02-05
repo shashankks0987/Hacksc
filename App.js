@@ -121,7 +121,7 @@ async function getDataArray() {
 
 
 const ChartPage = ({ navigation }) => {
-  const [dataArray, setDataArray] = useState([]);
+  const [dataArray, setDataArray] = useState([0,0,0]);
   useEffect(() => {
   const loadData = async () => {
     const result = await getDataArray();
@@ -130,8 +130,87 @@ const ChartPage = ({ navigation }) => {
 
   loadData();
 }, []);
+        return (
 
-  return (
+                <View style={chartStyles.container}>
+                <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your progress chart</Text>
+                  <LineChart
+                    data={{
+                     // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+                      datasets: [
+                        {
+                          data:
+                              dataArray? dataArray : []
+                          ,
+                        strokeWidth: 2,
+                        color: (opacity = 1) => `rgba(255, 255, 255,1)`
+                        },
+                        {
+                          data: [
+                              67.8,
+                              67.9,
+                              68.3,
+                              68.4,
+                              68.6,
+                              68.6
+                          ],
+                          strokeWidth: 2,
+                          color: (opacity = 1) => `rgba(255, 0, 0,1)`
+                        },
+                        {
+                          data: [
+                              67.8,
+                              67.2,
+                              66.8,
+                              66.6,
+                              66.5,
+                              66.2
+                          ],
+                          strokeWidth: 2,
+                          color: (opacity = 1) => `rgba(0, 255, 0, 1)`
+                        }
+                      ]
+                    }}
+                    width={Dimensions.get("window").width} // from react-native
+                    height={Dimensions.get("window").height/2.5}
+                   // yAxisLabel="$"
+                    yAxisSuffix=""
+                    yAxisInterval={1} // optional, defaults to 1
+                    chartConfig={{
+                      backgroundColor: "#00000",
+                      backgroundGradientFrom: "#15D66F",
+                      backgroundGradientTo: "#75FB7B",
+                      decimalPlaces: 2, // optional, defaults to 2dp
+                      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                      style: {
+                        borderRadius: 16
+                      },
+                      propsForDots: {
+                        r: "2.5",
+                        strokeWidth: "1",
+                        stroke: "#ffa726"
+                      }
+                    }}
+                    bezier
+                    style={{
+                      marginVertical: 16,
+                      borderRadius: 16
+                    }}
+                
+                  />
+                <Circle/>
+                <Timer />
+                <AppButton
+                  title="Back"
+                  onPress={() => navigation.navigate('Page3')}
+                />
+                </View>
+                
+        );
+      };
+
+/*  return (
 
 
         <LinearGradient
@@ -216,7 +295,7 @@ const ChartPage = ({ navigation }) => {
         </LinearGradient>
         
 );
-};
+};*/
 
 const WeightPage = ({ navigation}) => {
   return(
