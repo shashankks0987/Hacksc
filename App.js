@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
 import { Animated,  Dimensions } from 'react-native';
 import { Constants } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
@@ -8,7 +8,9 @@ import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar, CalendarEvent } from 'react-native-calendar-events';
 import { LinearGradient } from 'expo-linear-gradient';
-
+import InputComponent from './InputComponent';
+import Circle from './CircleComponent';
+import MyGraph from './NewGraphComponent';
 
 const Stack = createStackNavigator();
 
@@ -126,19 +128,47 @@ const ChartPage = ({ navigation }) => {
                       67.2,
                       67.0,
                       66.4
-                    ]
+                    ],
+                  strokeWidth: 2,
+                  color: (opacity = 1) => `rgba(255, 255, 255,1)`
+                  },
+                  {
+                    data: [
+                        67.8,
+                        67.9,
+                        68.3,
+                        68.4,
+                        68.6,
+                        68.6
+                    ],
+                    strokeWidth: 2,
+                    color: (opacity = 1) => `rgba(255, 0, 0,1)`
+                  },
+                  {
+                    data: [
+                        67.8,
+                        67.2,
+                        66.8,
+                        66.6,
+                        66.5,
+                        66.2
+                    ],
+                    strokeWidth: 2,
+                    color: (opacity = 1) => `rgba(0, 255, 0, 1)`
                   }
                 ]
               }}
               width={Dimensions.get("window").width} // from react-native
               height={Dimensions.get("window").height/2.5}
              // yAxisLabel="$"
-              yAxisSuffix="lbs"
+              yAxisSuffix=""
               yAxisInterval={1} // optional, defaults to 1
               chartConfig={{
-                backgroundColor: "#e26a00",
-                backgroundGradientFrom: "#fb8c00",
-                backgroundGradientTo: "#ffa726",
+                backgroundColor: "#00b0ff",
+                backgroundGradientFrom: "#00b0ff",
+                backgroundGradientTo: "#43cea2",
+                  backgroundGradientFromOpacity:1.0,
+                  backgroundGradientToOpacity:0.0,
                 decimalPlaces: 2, // optional, defaults to 2dp
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -158,9 +188,10 @@ const ChartPage = ({ navigation }) => {
               }}
           
             />
+          <Circle/>
           <Button
             title="Track Weight"
-            onPress={() => navigation.navigate('PersonalGoalsPage')}
+            onPress={() => navigation.navigate('WeightPage')}
             style={styles.button}
           />
           <Timer />
@@ -175,6 +206,21 @@ const ChartPage = ({ navigation }) => {
   );
 };
 
+const WeightPage = ({ navigation }) => {
+  return(
+         <LinearGradient
+           colors={['#43cea2', '#00b0ff']}
+           style={{ flex: 1 }}
+         >
+  <View style={styles.container}>
+    <Text style={styles.text}>How much do you weigh(in lbs) right now?</Text>
+    <InputComponent/>
+         <InputComponent/>
+  </View>
+         </LinearGradient>
+  )
+};
+
 const OnBoardingPage = ({ navigation }) => {
   return (
           <LinearGradient
@@ -184,11 +230,11 @@ const OnBoardingPage = ({ navigation }) => {
           <View style={styles.container}>
             <Text style={styles.text}>Welcome to the app!</Text>
             <Text style={styles.text}>This is your onboarding page.</Text>
-          <Button
+          <AppButton
             title="Next"
             onPress={() => navigation.navigate('Page1')}
-            style={styles.button}
           />
+          <MyGraph/>
           </View>
           </LinearGradient>
   );
@@ -201,11 +247,11 @@ const Page1 = ({ navigation }) => {
             colors={['#43cea2', '#00b0ff']}
             style={{ flex: 1 }}
           >
-          <View style={OnboardingStyles.container}>
+          <View style={styles.container}>
 
                 <Text style={styles.text}>How many days per week do you want to spend on this goal?</Text>
           <View style ={OnboardingStyles.buttonContainer}>
-                <Button
+                <AppButton
           style={OnboardingStyles.button}
                   title="3 Days"
                   onPress={() => {
@@ -213,29 +259,26 @@ const Page1 = ({ navigation }) => {
                     navigation.navigate('Page2')}
                   }
                 />
-          <Button
+          <AppButton
           style={OnboardingStyles.button}
             title="5 Days"
             onPress={() => {
               storeData({"Per week" : 5}, 'perWeek');
               navigation.navigate('Page2')
             }}
-            style={OnboardingStyles.button}
           />
-          <Button
+          <AppButton
           style={OnboardingStyles.button}
             title="7 Days"
             onPress={() => {
               storeData({"Per week" : 7},'perWeek');
               navigation.navigate('Page2')
             }}
-            style={OnboardingStyles.button}
           />
           </View>
-          <Button
+          <AppButton
             title="Back"
             onPress={() => navigation.navigate('OnBoardingPage')}
-            style={styles.button}
           />
               </View>
           </LinearGradient>
@@ -251,8 +294,7 @@ const Page2 = ({ navigation }) => {
             <View style={OnboardingStyles.container}>
                   <Text style={styles.text}>How much time per day can you put in?</Text>
             <View style ={OnboardingStyles.buttonContainer}>
-                  <Button
-            style={OnboardingStyles.button}
+                  <AppButton
                     title="30 mins"
                     onPress={() => 
                       {
@@ -261,29 +303,26 @@ const Page2 = ({ navigation }) => {
                     }}
                     
                   />
-            <Button
+            <AppButton
             style={OnboardingStyles.button}
               title="1 hour"
               onPress={() =>                       {
                 navigation.navigate('Page3')
                 storeData({"time": 1}, 'time')
               }}
-              style={OnboardingStyles.button}
             />
-            <Button
+            <AppButton
             style={OnboardingStyles.button}
               title="1.5 hours"
               onPress={() =>                       {
                 navigation.navigate('Page3')
                 storeData({"time": 1.5}, 'time')
               }}
-              style={OnboardingStyles.button}
             />
             </View>
-            <Button
+            <AppButton
               title="Back"
               onPress={() => navigation.navigate('Page1')}
-              style={styles.button}
             />
                 </View>
             </LinearGradient>
@@ -298,17 +337,14 @@ const Page3 = ({ navigation }) => {
           >
           <View style={OnboardingStyles.container}>
             <Text style={styles.text}>When do you want us to notify you?</Text>
-          <Button
+          <AppButton
           style={OnboardingStyles.button}
             title="Next"
             onPress={() => navigation.navigate('ChartPage')}
-            style={OnboardingStyles.button}
           />
-          <Button
-            title="Back"
-            onPress={() => navigation.navigate('Page2')}
-            style={styles.button}
-          />
+          <AppButton onPress={() => navigation.navigate('Page2')}
+              title="Back"
+              />
           </View>
           </LinearGradient>
   );
@@ -325,10 +361,9 @@ const PersonalGoalsPage = ({ navigation }) => {
             <Text style={styles.text}>67.8kg</Text>
             <Text style={styles.text}>Your 2 week target</Text>
             <Text style={styles.text}>66.2kg</Text>
-            <Button
+            <AppButton
               title="Back"
               onPress={() => navigation.navigate('ChartPage')}
-              style={styles.button}
             />
               </View>
 
@@ -340,7 +375,11 @@ const PersonalGoalsPage = ({ navigation }) => {
 
 const PAGE_WIDTH = Dimensions.get('window').width;
 
-
+const AppButton = ({ onPress, title }) => (
+  <TouchableOpacity onPress={onPress} style={ButtonStyles.appButtonContainer}>
+    <Text style={ButtonStyles.appButtonText}>{title}</Text>
+  </TouchableOpacity>
+);
 
 export default function App() {
     return (
@@ -352,6 +391,7 @@ export default function App() {
         <Stack.Screen name="Page1" component={Page1} />
         <Stack.Screen name="Page2" component={Page2} />
         <Stack.Screen name="Page3" component={Page3} />
+        <Stack.Screen name="WeightPage" component={WeightPage} />
         <Stack.Screen name="ChartPage" component={ChartPage} />
         <Stack.Screen name="PersonalGoalsPage" component={PersonalGoalsPage} />
       </Stack.Navigator>
@@ -386,10 +426,20 @@ container: {
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
+    padding: 10
 },
 text: {
   fontSize: 20,
   fontWeight: 'bold',
+},
+button:{
+alignItems: 'center',
+justifyContent: 'center',
+paddingVertical: 12,
+paddingHorizontal: 32,
+borderRadius: 4,
+elevation: 3,
+backgroundColor: 'black',
 },
 
 });
@@ -398,7 +448,6 @@ const TimerStyles = StyleSheet.create({
   timerContainer: {
     padding: 20,
     alignItems: 'center',
-    backgroundColor: '#f2f2f2',
     borderRadius: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
@@ -411,6 +460,24 @@ const TimerStyles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#333',
   },
+});
+
+const ButtonStyles = StyleSheet.create({
+  // ...
+  appButtonContainer: {
+    elevation: 8,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 12
+  },
+  appButtonText: {
+    fontSize: 18,
+    color: "#00b0ff",
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
+  }
 });
 
 
