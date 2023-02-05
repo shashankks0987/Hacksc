@@ -101,7 +101,20 @@ const Timer = () => {
 
 async function getDataArray() {
   let weight = await getData('weight');
-  return weight
+  let goal = await getData('goal');
+  let time = await getData('time');
+  time = time.time * 60
+  let predicted = []
+  currWeightDate = weight.date
+  curr = weight.weight[weight.weight.length - 1]
+  while(curr >= goal){
+    lostWeight = ((time * 34.174 * (curr/2.205)) / 200) / 3500
+    curr = curr - lostWeight
+    predicted.push(curr)
+  }
+  return {
+    'predictedWeights' : predicted, 'prevWeights' : weight.weight
+  }
 }
 
 const ChartPage = ({ navigation }) => {
