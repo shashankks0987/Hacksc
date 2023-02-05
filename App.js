@@ -322,107 +322,32 @@ const ChartPage = ({ navigation }) => {
         );
       };
 
-/*  return (
-
-
-        <LinearGradient
-          colors={['#43cea2', '#00b0ff']}
-          style={{ flex: 1 }}
-        >
-        <View>
-          <Text>Bezier Line Chart</Text>
-          <LineChart
-            data={{
-             // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
-              datasets: [
-                {
-                  data: dataArray? dataArray : [],
-                strokeWidth: 1,
-                color: (opacity = 1) => `rgba(255, 255, 255,1)`
-                },
-                // {
-                //   data: [
-                //       67.8,
-                //       67.2,
-                //       66.8,
-                //       66.6,
-                //       66.5,
-                //       66.2
-                //   ],
-                //   strokeWidth: 2,
-                //   color: (opacity = 1) => `rgba(0, 255, 0, 1)`
-                // },
-                // {
-                //   data: [
-                //       67.8,
-                //       67.2,
-                //       66.8,
-                //       66.6,
-                //       66.5,
-                //       66.2
-                //   ],
-                //   strokeWidth: 2,
-                //   color: (opacity = 1) => `rgba(0, 255, 0, 1)`
-                // }
-              ]
-            }}
-            width={Dimensions.get("window").width} // from react-native
-            height={Dimensions.get("window").height/2.5}
-           // yAxisLabel="$"
-            yAxisSuffix=""
-            yAxisInterval={1} // optional, defaults to 1
-            chartConfig={{
-              backgroundColor: "#00b0ff",
-              backgroundGradientFrom: "#00b0ff",
-              backgroundGradientTo: "#43cea2",
-                backgroundGradientFromOpacity:1.0,
-                backgroundGradientToOpacity:0.0,
-              decimalPlaces: 2, // optional, defaults to 2dp
-              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-              style: {
-                borderRadius: 16
-              },
-              propsForDots: {
-                r: "6",
-                strokeWidth: "2",
-                stroke: "#ffa726"
-              }
-            }}
-            bezier
-            style={{
-              marginVertical: 8,
-              borderRadius: 16
-            }}
-        
-          />
-        <Circle/>
-        <Timer />
-        <Button
-          title="Back"
-          onPress={() => navigation.navigate('Page3')}
-          style={styles.button}
-        />
-        </View>
-        </LinearGradient>
-        
-);
-};*/
 
 const WeightPage = ({ navigation}) => {
   return(
   <View style={styles.container}>
     <Text style={styles.text}>How much do you weigh(in lbs) right now?</Text>
-    <InputComponent key1={'weight'} />
-    <Text style={styles.text}>What's your goal weight(in lbs)?</Text>
-         <InputComponent key1={'goal'}/>
+    <InputComponent key1={'weight'} number-pad />
+         <AppButton
+          style={OnboardingStyles.button}
+            title="Next"
+            onPress={() => navigation.navigate('GoalPage')}
+          />
+  </View>
+  )
+};
+
+const GoalPage = ({ navigation}) => {
+  return(
+  <View style={styles.container}>
+    <Text style={styles.text}>What's your goal(in lbs)?</Text>
+    <InputComponent key1={'goal'} number-pad />
          <AppButton
           style={OnboardingStyles.button}
             title="Next"
             onPress={() => navigation.navigate('ChartPage')}
           />
   </View>
-
   )
 };
 
@@ -572,6 +497,7 @@ export default function App() {
         <Stack.Screen name="Page2" component={Page2} />
         <Stack.Screen name="Page3" component={Page3} />
         <Stack.Screen name="WeightPage" component={WeightPage} />
+        <Stack.Screen name="GoalPage" component={GoalPage} />
         <Stack.Screen name="ChartPage" component={ChartPage} />
         <Stack.Screen name="PlusPage" component={PlusPage} />
         <Stack.Screen name="MinusPage" component={MinusPage} />

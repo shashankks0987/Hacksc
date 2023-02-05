@@ -48,6 +48,8 @@ const InputComponent = ({key1}) => {
 
     const handleTextChange = inputText => {
         setText(inputText);
+        let s = {"weight": inputText}
+        storeData(s, key1)
     };
 
     return (
@@ -57,17 +59,7 @@ const InputComponent = ({key1}) => {
                 onChangeText={handleTextChange}
                 value={weight}
             />
-            <View style={styles.buttonContainer}>
-                <Button
-                    style={styles.button}
-                    title="Good to go"
-                    onPress={() => {
-                        storeData({weight}, key1)
-                    }}
-                    style={styles.button}
-                />
             </View>
-        </View>
     );
 };
 
