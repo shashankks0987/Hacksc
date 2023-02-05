@@ -7,6 +7,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Calendar, CalendarEvent } from 'react-native-calendar-events';
+import {LineChart} from "react-native-chart-kit";
 import { LinearGradient } from 'expo-linear-gradient';
 import InputComponent from './InputComponent';
 import Circle from './CircleComponent';
@@ -15,10 +16,10 @@ import Slider from '@react-native-community/slider';
 
 const Stack = createStackNavigator();
 
-const getData = async () => {
+const getData = async (key) => {
   try {
-    const jsonValue = await AsyncStorage.getItem('@storage_Key')
-    return jsonValue != null ? JSON.parse(jsonValue) : null;
+    const jsonValue = await AsyncStorage.getItem(key)
+    return  JSON.parse(jsonValue);
   } catch(e) {
     console.log("Error retrieving");
   }
@@ -34,17 +35,6 @@ const storeData = async (value, storage_Key) => {
    }
  }
 
-
-
-import {
-  LineChart,
-  BarChart,
-  PieChart,
-  ProgressChart,
-  ContributionGraph,
-  StackedBarChart,
-  Grid
-} from "react-native-chart-kit";
 
 
 const currentDate = new Date();
@@ -111,102 +101,135 @@ const Timer = () => {
   );
 };
 
+
+
+async function getDataArray() {
+  let weight = await getData('weight');  //{"weight": "123"}
+  let goal = await getData('goal');
+  let time = await getData('time');
+  let t = time.time * 60
+  let predicted = []
+  let curr = parseFloat(weight.weight)
+  goal = goal.weight
+  while(curr > goal){
+    let lostWeight = ((t * 34.174 * (curr/2.205)) / 200) / 3500
+    curr = curr - lostWeight
+    predicted.push(curr)
+  }
+  return [parseFloat(weight.weight), ...predicted]
+}
+
+
 const ChartPage = ({ navigation }) => {
+  const [dataArray, setDataArray] = useState([]);
+  useEffect(() => {
+  const loadData = async () => {
+    const result = await getDataArray();
+    setDataArray(result);
+  };
+
+  loadData();
+}, []);
+
   return (
 
-          <View style={chartStyles.container}>
-          <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your progress chart</Text>
-            <LineChart
-              data={{
-                labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
-                datasets: [
-                  {
-                    data: [
-                      67.8,
-                      67.6,
-                      67.4,
-                      67.2,
-                      67.0,
-                      66.4
-                    ],
-                  strokeWidth: 2,
-                  color: (opacity = 1) => `rgba(255, 255, 255,1)`
-                  },
-                  {
-                    data: [
-                        67.8,
-                        67.9,
-                        68.3,
-                        68.4,
-                        68.6,
-                        68.6
-                    ],
-                    strokeWidth: 2,
-                    color: (opacity = 1) => `rgba(255, 0, 0,1)`
-                  },
-                  {
-                    data: [
-                        67.8,
-                        67.2,
-                        66.8,
-                        66.6,
-                        66.5,
-                        66.2
-                    ],
-                    strokeWidth: 2,
-                    color: (opacity = 1) => `rgba(0, 255, 0, 1)`
-                  }
-                ]
-              }}
-              width={Dimensions.get("window").width} // from react-native
-              height={Dimensions.get("window").height/2.5}
-             // yAxisLabel="$"
-              yAxisSuffix=""
-              yAxisInterval={1} // optional, defaults to 1
-              chartConfig={{
-                backgroundColor: "#00000",
-                backgroundGradientFrom: "#15D66F",
-                backgroundGradientTo: "#75FB7B",
-                decimalPlaces: 2, // optional, defaults to 2dp
-                color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                style: {
-                  borderRadius: 16
+
+        <LinearGradient
+          colors={['#43cea2', '#00b0ff']}
+          style={{ flex: 1 }}
+        >
+        <View>
+          <Text>Bezier Line Chart</Text>
+          <LineChart
+            data={{
+             // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+              datasets: [
+                {
+                  data: dataArray? dataArray : [],
+                strokeWidth: 1,
+                color: (opacity = 1) => `rgba(255, 255, 255,1)`
                 },
-                propsForDots: {
-                  r: "2.5",
-                  strokeWidth: "1",
-                  stroke: "#ffa726"
-                }
-              }}
-              bezier
-              style={{
-                marginVertical: 16,
+                // {
+                //   data: [
+                //       67.8,
+                //       67.2,
+                //       66.8,
+                //       66.6,
+                //       66.5,
+                //       66.2
+                //   ],
+                //   strokeWidth: 2,
+                //   color: (opacity = 1) => `rgba(0, 255, 0, 1)`
+                // },
+                // {
+                //   data: [
+                //       67.8,
+                //       67.2,
+                //       66.8,
+                //       66.6,
+                //       66.5,
+                //       66.2
+                //   ],
+                //   strokeWidth: 2,
+                //   color: (opacity = 1) => `rgba(0, 255, 0, 1)`
+                // }
+              ]
+            }}
+            width={Dimensions.get("window").width} // from react-native
+            height={Dimensions.get("window").height/2.5}
+           // yAxisLabel="$"
+            yAxisSuffix=""
+            yAxisInterval={1} // optional, defaults to 1
+            chartConfig={{
+              backgroundColor: "#00b0ff",
+              backgroundGradientFrom: "#00b0ff",
+              backgroundGradientTo: "#43cea2",
+                backgroundGradientFromOpacity:1.0,
+                backgroundGradientToOpacity:0.0,
+              decimalPlaces: 2, // optional, defaults to 2dp
+              color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+              style: {
                 borderRadius: 16
-              }}
-          
-            />
-          <Circle/>
-          <AppButton
-            title="Track Weight"
-            onPress={() => navigation.navigate('WeightPage')}
+              },
+              propsForDots: {
+                r: "6",
+                strokeWidth: "2",
+                stroke: "#ffa726"
+              }
+            }}
+            bezier
+            style={{
+              marginVertical: 8,
+              borderRadius: 16
+            }}
+        
           />
-          <Timer />
-          <AppButton
-            title="Back"
-            onPress={() => navigation.navigate('Page3')}
-          />
-          </View>
-          
-  );
+        <Circle/>
+        <Timer />
+        <Button
+          title="Back"
+          onPress={() => navigation.navigate('Page3')}
+          style={styles.button}
+        />
+        </View>
+        </LinearGradient>
+        
+);
 };
 
-const WeightPage = ({ navigation }) => {
+const WeightPage = ({ navigation}) => {
   return(
   <View style={styles.container}>
     <Text style={styles.text}>How much do you weigh(in lbs) right now?</Text>
-    <InputComponent/>
-    <InputComponent/>
+    <InputComponent key1={'weight'} />
+    <Text style={styles.text}>What's your goal weight(in lbs)?</Text>
+         <InputComponent key1={'goal'}/>
+         <AppButton
+          style={OnboardingStyles.button}
+            title="Next"
+            onPress={() => navigation.navigate('ChartPage')}
+          />
   </View>
 
   )
@@ -312,7 +335,7 @@ const Page3 = ({ navigation }) => {
           <AppButton
           style={OnboardingStyles.button}
             title="Next"
-            onPress={() => navigation.navigate('ChartPage')}
+            onPress={() => navigation.navigate('WeightPage')}
           />
           <AppButton onPress={() => navigation.navigate('Page2')}
               title="Back"
