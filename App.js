@@ -12,7 +12,6 @@ import { LinearGradient } from 'expo-linear-gradient';
 import InputComponent from './InputComponent';
 import Circle from './CircleComponent';
 import MyGraph from './NewGraphComponent';
-import Slider from '@react-native-community/slider';
 
 const Stack = createStackNavigator();
 
@@ -103,11 +102,11 @@ const Timer = () => {
 
 
 
-async function getDataArray() {
+async function getDataArray(delta) {
   let weight = await getData('weight');  //{"weight": "123"}
   let goal = await getData('goal');
   let time = await getData('time');
-  let t = time.time * 60
+  let t = (time.time + delta) * 60
   let predicted = []
   let curr = parseFloat(weight.weight)
   goal = goal.weight
@@ -119,21 +118,19 @@ async function getDataArray() {
   return [parseFloat(weight.weight), ...predicted]
 }
 
-
-const ChartPage = ({ navigation }) => {
+const PlusPage = ({navigation}) => {
   const [dataArray, setDataArray] = useState([0,0,0]);
   useEffect(() => {
   const loadData = async () => {
-    const result = await getDataArray();
+    const result = await getDataArray(0.25);
     setDataArray(result);
   };
 
   loadData();
 }, []);
         return (
-
                 <View style={chartStyles.container}>
-                <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your progress chart</Text>
+                <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your predicted progress for +15 mins</Text>
                   <LineChart
                     data={{
                      // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
@@ -144,30 +141,6 @@ const ChartPage = ({ navigation }) => {
                           ,
                         strokeWidth: 2,
                         color: (opacity = 1) => `rgba(255, 255, 255,1)`
-                        },
-                        {
-                          data: [
-                              67.8,
-                              67.9,
-                              68.3,
-                              68.4,
-                              68.6,
-                              68.6
-                          ],
-                          strokeWidth: 2,
-                          color: (opacity = 1) => `rgba(255, 0, 0,1)`
-                        },
-                        {
-                          data: [
-                              67.8,
-                              67.2,
-                              66.8,
-                              66.6,
-                              66.5,
-                              66.2
-                          ],
-                          strokeWidth: 2,
-                          color: (opacity = 1) => `rgba(0, 255, 0, 1)`
                         }
                       ]
                     }}
@@ -200,10 +173,149 @@ const ChartPage = ({ navigation }) => {
                 
                   />
                 <Circle/>
-                <Timer />
+                <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
+                <AppButton
+                  title="Back"
+                  onPress={() => navigation.navigate('ChartPage')}
+                />
+                </View>
+                
+        );
+}
+
+const MinusPage = ({navigation}) => {
+  const [dataArray, setDataArray] = useState([0,0,0]);
+  useEffect(() => {
+  const loadData = async () => {
+    const result = await getDataArray(-0.25);
+    setDataArray(result);
+  };
+
+  loadData();
+}, []);
+        return (
+                <View style={chartStyles.container}>
+                <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your predicted progress for -15 mins</Text>
+                  <LineChart
+                    data={{
+                     // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+                      datasets: [
+                        {
+                          data:
+                              dataArray? dataArray : []
+                          ,
+                        strokeWidth: 2,
+                        color: (opacity = 1) => `rgba(255, 255, 255,1)`
+                        }
+                      ]
+                    }}
+                    width={Dimensions.get("window").width} // from react-native
+                    height={Dimensions.get("window").height/2.5}
+                   // yAxisLabel="$"
+                    yAxisSuffix=""
+                    yAxisInterval={1} // optional, defaults to 1
+                    chartConfig={{
+                      backgroundColor: "#00000",
+                      backgroundGradientFrom: "#15D66F",
+                      backgroundGradientTo: "#75FB7B",
+                      decimalPlaces: 2, // optional, defaults to 2dp
+                      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                      style: {
+                        borderRadius: 16
+                      },
+                      propsForDots: {
+                        r: "2.5",
+                        strokeWidth: "1",
+                        stroke: "#ffa726"
+                      }
+                    }}
+                    bezier
+                    style={{
+                      marginVertical: 16,
+                      borderRadius: 16
+                    }}
+                
+                  />
+                <Circle/>
+                <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
+                <AppButton
+                  title="Back"
+                  onPress={() => navigation.navigate('ChartPage')}
+                />
+                </View>
+                
+        );
+}
+
+const ChartPage = ({ navigation }) => {
+  const [dataArray, setDataArray] = useState([0,0,0]);
+  useEffect(() => {
+  const loadData = async () => {
+    const result = await getDataArray(0);
+    setDataArray(result);
+  };
+
+  loadData();
+}, []);
+        return (
+
+                <View style={chartStyles.container}>
+                <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your progress chart</Text>
+                  <LineChart
+                    data={{
+                     // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+                      datasets: [
+                        {
+                          data:
+                              dataArray? dataArray : []
+                          ,
+                        strokeWidth: 2,
+                        color: (opacity = 1) => `rgba(255, 255, 255,1)`
+                        }
+                      ]
+                    }}
+                    width={Dimensions.get("window").width} // from react-native
+                    height={Dimensions.get("window").height/2.5}
+                   // yAxisLabel="$"
+                    yAxisSuffix=""
+                    yAxisInterval={1} // optional, defaults to 1
+                    chartConfig={{
+                      backgroundColor: "#00000",
+                      backgroundGradientFrom: "#15D66F",
+                      backgroundGradientTo: "#75FB7B",
+                      decimalPlaces: 2, // optional, defaults to 2dp
+                      color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                      style: {
+                        borderRadius: 16
+                      },
+                      propsForDots: {
+                        r: "2.5",
+                        strokeWidth: "1",
+                        stroke: "#ffa726"
+                      }
+                    }}
+                    bezier
+                    style={{
+                      marginVertical: 16,
+                      borderRadius: 16
+                    }}
+                
+                  />
+                <Circle/>
+                <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
                 <AppButton
                   title="Back"
                   onPress={() => navigation.navigate('Page3')}
+                />
+                <AppButton
+                  title="Add 15 mins everyday"
+                  onPress={() => navigation.navigate('PlusPage')}
+                />
+                <AppButton
+                  title="Reduce 15 mins everyday"
+                  onPress={() => navigation.navigate('MinusPage')}
                 />
                 </View>
                 
@@ -461,6 +573,8 @@ export default function App() {
         <Stack.Screen name="Page3" component={Page3} />
         <Stack.Screen name="WeightPage" component={WeightPage} />
         <Stack.Screen name="ChartPage" component={ChartPage} />
+        <Stack.Screen name="PlusPage" component={PlusPage} />
+        <Stack.Screen name="MinusPage" component={MinusPage} />
         <Stack.Screen name="PersonalGoalsPage" component={PersonalGoalsPage} />
       </Stack.Navigator>
             </NavigationContainer>
