@@ -139,8 +139,8 @@ const PlusPage = ({navigation}) => {
                           data:
                               dataArray? dataArray : []
                           ,
-                        strokeWidth: 2,
-                        color: (opacity = 1) => `rgba(255, 255, 255,1)`
+                        strokeWidth: 5,
+                        color: (opacity = 1) => `rgba(57,255,20,1)`
                         }
                       ]
                     }}
@@ -152,7 +152,9 @@ const PlusPage = ({navigation}) => {
                     chartConfig={{
                       backgroundColor: "#00000",
                       backgroundGradientFrom: "#15D66F",
-                      backgroundGradientTo: "#75FB7B",
+                      backgroundGradientTo: "#fff",
+                        backgroundGradientToOpacity:0,
+                        backgroundGradientFromOpacity:0,
                       decimalPlaces: 2, // optional, defaults to 2dp
                       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -204,8 +206,8 @@ const MinusPage = ({navigation}) => {
                           data:
                               dataArray? dataArray : []
                           ,
-                        strokeWidth: 2,
-                        color: (opacity = 1) => `rgba(255, 255, 255,1)`
+                        strokeWidth: 5,
+                        color: (opacity = 1) => `rgba(255, 0,0,1)`
                         }
                       ]
                     }}
@@ -218,6 +220,8 @@ const MinusPage = ({navigation}) => {
                       backgroundColor: "#00000",
                       backgroundGradientFrom: "#15D66F",
                       backgroundGradientTo: "#75FB7B",
+                    backgroundGradientToOpacity:0,
+                    backgroundGradientFromOpacity:0,
                       decimalPlaces: 2, // optional, defaults to 2dp
                       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                       labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -264,14 +268,14 @@ const ChartPage = ({ navigation }) => {
                 <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your progress chart</Text>
                   <LineChart
                     data={{
-                     // labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
+                      labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
                       datasets: [
                         {
                           data:
                               dataArray? dataArray : []
                           ,
-                        strokeWidth: 2,
-                        color: (opacity = 1) => `rgba(255, 255, 255,1)`
+                        strokeWidth: 5,
+                        color: (opacity = 1) => `rgba(173,216,230,1)`
                         }
                       ]
                     }}
@@ -284,9 +288,11 @@ const ChartPage = ({ navigation }) => {
                       backgroundColor: "#00000",
                       backgroundGradientFrom: "#15D66F",
                       backgroundGradientTo: "#75FB7B",
-                      decimalPlaces: 2, // optional, defaults to 2dp
+                    backgroundGradientToOpacity:0,
+                    backgroundGradientFromOpacity:0,
+                      decimalPlaces: 1, // optional, defaults to 2dp
                       color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-                      labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
+                      labelColor: (opacity = 1) => `rgba(45,45,45, ${opacity})`,
                       style: {
                         borderRadius: 16
                       },
@@ -296,11 +302,11 @@ const ChartPage = ({ navigation }) => {
                         stroke: "#ffa726"
                       }
                     }}
-                    bezier
+                    /*bezier
                     style={{
                       marginVertical: 16,
                       borderRadius: 16
-                    }}
+                    }}*/
                 
                   />
                 <Circle/>
@@ -351,7 +357,7 @@ const OnBoardingPage = ({ navigation }) => {
   return (
           <View style={styles.container}>
             <Text style={styles.text}>LTFit</Text>
-          <AppButton
+          <AppButton style = {OnboardingStyles.button}
             title="Next"
             onPress={() => navigation.navigate('Page1')}
 
@@ -367,6 +373,8 @@ const Page1 = ({ navigation }) => {
           <View style={styles.container}>
 
                 <Text style={styles.text}>How many days per week do you want to spend on this goal?</Text>
+          <View style={styles.smallSpace} />
+          <Text style={styles.subtitle}>More goals More Progress                           </Text>
           <View style ={OnboardingStyles.buttonContainer}>
                 <AppButton
           style={OnboardingStyles.button}
@@ -376,6 +384,7 @@ const Page1 = ({ navigation }) => {
                     navigation.navigate('Page2')}
                   }
                 />
+          <View style={OnboardingStyles.space} />
           <AppButton
           style={OnboardingStyles.button}
             title="5 Days"
@@ -384,6 +393,7 @@ const Page1 = ({ navigation }) => {
               navigation.navigate('Page2')
             }}
           />
+          <View style={OnboardingStyles.space} />
           <AppButton
           style={OnboardingStyles.button}
             title="7 Days"
@@ -403,8 +413,10 @@ const Page1 = ({ navigation }) => {
 
 const Page2 = ({ navigation }) => {
     return (
-            <View style={OnboardingStyles.container}>
+            <View style={styles.container}>
                   <Text style={styles.text}>How much time per day can you put in?</Text>
+            <View style={styles.smallSpace} />
+            <Text style={styles.subtitle}>Consider it an investment :)                         </Text>
             <View style ={OnboardingStyles.buttonContainer}>
                   <AppButton
                     title="30 mins"
@@ -415,6 +427,7 @@ const Page2 = ({ navigation }) => {
                     }}
                     
                   />
+            <View style={OnboardingStyles.space} />
             <AppButton
             style={OnboardingStyles.button}
               title="1 hour"
@@ -423,6 +436,7 @@ const Page2 = ({ navigation }) => {
                 storeData({"time": 1}, 'time')
               }}
             />
+            <View style={OnboardingStyles.space} />
             <AppButton
             style={OnboardingStyles.button}
               title="1.5 hours"
@@ -495,20 +509,39 @@ container: {
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-backgroundColor:'#F7FAE3'
+backgroundColor:'#FFF4D9'
 },
 buttonContainer: {
-  flexDirection: 'row',
+  flexDirection: 'column',
   justifyContent: 'space-between',
-  width: '80%',
+  width: '95%',
+    paddingVertical:200,
 },
 button: {
 elevation: 5,
-backgroundColor: '#fff',
+backgroundColor: '#2D2D2D',
 padding: 15,
 borderRadius: 10,
 },
-})
+    space:{
+        width:25,
+        height:25,
+    },
+    squareButtonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '95%',
+    paddingVertical:200
+    },
+    redSquareButton:{
+        width:250,
+        height:250,
+    elevation: 5,
+    backgroundColor: '#2D2D2D',
+    padding: 15,
+    borderRadius: 50
+    }
+});
 
 const styles = StyleSheet.create({
 container: {
@@ -516,13 +549,15 @@ container: {
   alignItems: 'center',
   justifyContent: 'center',
     padding: 10,
-    backgroundColor:'#F7FAE3'
+    backgroundColor:'#FFF4D9'
 },
 text: {
-  fontSize: 20,
+  fontSize: 22,
   fontWeight: 'bold',
-  color:'#15D66F',
-    fontFamily: 'Arial'
+  color:'#2D2D2D',
+    fontFamily: 'Arial',
+    paddingHorizontal:3,
+    
 },
 button:{
 alignItems: 'center',
@@ -533,6 +568,18 @@ borderRadius: 4,
 elevation: 3,
 backgroundColor: 'black',
 },
+        
+subtitle: {
+      fontSize: 18,
+      color:'#0F9D58',
+        fontFamily: 'Arial',
+        paddingHorizontal:3,
+        
+    },
+    smallSpace:{
+        width:10,
+        height:10,
+    }
 
 });
 
@@ -558,18 +605,32 @@ const ButtonStyles = StyleSheet.create({
   // ...
   appButtonContainer: {
     elevation: 8,
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    paddingVertical: 10,
+    backgroundColor: "#2D2D2D",
+    borderRadius: 5,
+    paddingVertical: 9,
     paddingHorizontal: 12
   },
   appButtonText: {
     fontSize: 18,
-    color:'#15D66F',
+    color:'#fff',
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase"
-  }
+  },
+    LoginButtonContainer: {
+      elevation: 8,
+      backgroundColor: "#79F765",
+      borderRadius: 5,
+      paddingVertical: 9,
+      paddingHorizontal: 12
+    },
+    LoginButtonText: {
+      fontSize: 18,
+      color:'#2D2D2D',
+      fontWeight: "bold",
+      alignSelf: "center",
+      textTransform: "uppercase"
+    }
 });
 
 const chartStyles = StyleSheet.create(
@@ -579,9 +640,20 @@ container: {
   alignItems: 'center',
   justifyContent: 'center',
     padding: 10,
-backgroundColor:'#F7FAE3'
+backgroundColor:'#FFF4D9'
 },
 });
+                       
+const homePage = StyleSheet.create({
+    logInButton:{
+    fontSize: 18,
+    color:'#79F765',
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
+ 
+    }
+    });
 
 
 
