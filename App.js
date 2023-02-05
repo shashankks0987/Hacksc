@@ -359,7 +359,7 @@ const OnBoardingPage = ({ navigation }) => {
             <Text style={styles.text}>LTFit</Text>
           <AppButton style = {OnboardingStyles.button}
             title="Next"
-            onPress={() => navigation.navigate('Page1')}
+            onPress={() => navigation.navigate('Page2')}
 
           />
           <MyGraph/>
@@ -368,48 +368,48 @@ const OnBoardingPage = ({ navigation }) => {
 };
 
 
-const Page1 = ({ navigation }) => {
-  return (
-          <View style={styles.container}>
+// const Page1 = ({ navigation }) => {
+//   return (
+//           <View style={styles.container}>
 
-                <Text style={styles.text}>How many days per week do you want to spend on this goal?</Text>
-          <View style={styles.smallSpace} />
-          <Text style={styles.subtitle}>More goals More Progress                           </Text>
-          <View style ={OnboardingStyles.buttonContainer}>
-                <AppButton
-          style={OnboardingStyles.button}
-                  title="3 Days"
-                  onPress={() => {
-                    storeData({"Per week":3}, 'perWeek');
-                    navigation.navigate('Page2')}
-                  }
-                />
-          <View style={OnboardingStyles.space} />
-          <AppButton
-          style={OnboardingStyles.button}
-            title="5 Days"
-            onPress={() => {
-              storeData({"Per week" : 5}, 'perWeek');
-              navigation.navigate('Page2')
-            }}
-          />
-          <View style={OnboardingStyles.space} />
-          <AppButton
-          style={OnboardingStyles.button}
-            title="7 Days"
-            onPress={() => {
-              storeData({"Per week" : 7},'perWeek');
-              navigation.navigate('Page2')
-            }}
-          />
-          </View>
-          <AppButton
-            title="Back"
-            onPress={() => navigation.navigate('OnBoardingPage')}
-          />
-              </View>
-  );
-};
+//                 <Text style={styles.text}>How many days per week do you want to spend on this goal?</Text>
+//           <View style={styles.smallSpace} />
+//           <Text style={styles.subtitle}>More goals More Progress                           </Text>
+//           <View style ={OnboardingStyles.buttonContainer}>
+//                 <AppButton
+//           style={OnboardingStyles.button}
+//                   title="3 Days"
+//                   onPress={() => {
+//                     storeData({"Per week":3}, 'perWeek');
+//                     navigation.navigate('Page2')}
+//                   }
+//                 />
+//           <View style={OnboardingStyles.space} />
+//           <AppButton
+//           style={OnboardingStyles.button}
+//             title="5 Days"
+//             onPress={() => {
+//               storeData({"Per week" : 5}, 'perWeek');
+//               navigation.navigate('Page2')
+//             }}
+//           />
+//           <View style={OnboardingStyles.space} />
+//           <AppButton
+//           style={OnboardingStyles.button}
+//             title="7 Days"
+//             onPress={() => {
+//               storeData({"Per week" : 7},'perWeek');
+//               navigation.navigate('Page2')
+//             }}
+//           />
+//           </View>
+//           <AppButton
+//             title="Back"
+//             onPress={() => navigation.navigate('OnBoardingPage')}
+//           />
+//               </View>
+//   );
+// };
 
 const Page2 = ({ navigation }) => {
     return (
@@ -448,7 +448,7 @@ const Page2 = ({ navigation }) => {
             </View>
             <AppButton
               title="Back"
-              onPress={() => navigation.navigate('Page1')}
+              onPress={() => navigation.navigate('OnboardingPage')}
             />
                 </View>
     );
@@ -488,7 +488,6 @@ export default function App() {
       headerShown: false
     }}>
         <Stack.Screen name="OnBoardingPage" component={OnBoardingPage} />
-        <Stack.Screen name="Page1" component={Page1} />
         <Stack.Screen name="Page2" component={Page2} />
         <Stack.Screen name="WeightPage" component={WeightPage} />
         <Stack.Screen name="GoalPage" component={GoalPage} />
