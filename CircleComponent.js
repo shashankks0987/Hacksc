@@ -10,9 +10,9 @@ const Circle = () => {
       <View style={[styles.circle, styles.greenCircle]} />
     </View>
           <View style = {styles.container}>
-          <Text> 30 mins less </Text>
-          <Text> Current </Text>
-          <Text> 30 mins more </Text>
+          <Text>-30 mins</Text>
+          <Text> Curr </Text>
+          <Text>  +30 mins</Text>
           </View>
     </View>
 

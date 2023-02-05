@@ -11,6 +11,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import InputComponent from './InputComponent';
 import Circle from './CircleComponent';
 import MyGraph from './NewGraphComponent';
+import Slider from '@react-native-community/slider';
 
 const Stack = createStackNavigator();
 
@@ -47,13 +48,15 @@ import {
 
 
 const currentDate = new Date();
+const tempDay = new Date(currentDate.setDate(currentDate.getDate() - 40));
+console.log(tempDay);
 const currentDay = new Date().getDate();
 const currentMonth = new Date().getMonth();
 
 const days = [];
 
 for (let i = 0; i < 21; i++) {
-    const nextDay = new Date(currentDate.setDate(currentDate.getDate() + 1));
+    const nextDay = new Date(tempDay.setDate(tempDay.getDate() + 1));
     const month = nextDay.getMonth() + 1; // add 1 since getMonth is 0-based
     const day = nextDay.getDate();
     days.push(`${month}/${day}`);
@@ -110,12 +113,9 @@ const Timer = () => {
 
 const ChartPage = ({ navigation }) => {
   return (
-          <LinearGradient
-            colors={['#43cea2', '#00b0ff']}
-            style={{ flex: 1 }}
-          >
-          <View>
-            <Text>Bezier Line Chart</Text>
+
+          <View style={chartStyles.container}>
+          <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your progress chart</Text>
             <LineChart
               data={{
                 labels: [days[0], days[1],days[2], days[3], days[4], days[5], days[6]],
@@ -164,11 +164,9 @@ const ChartPage = ({ navigation }) => {
               yAxisSuffix=""
               yAxisInterval={1} // optional, defaults to 1
               chartConfig={{
-                backgroundColor: "#00b0ff",
-                backgroundGradientFrom: "#00b0ff",
-                backgroundGradientTo: "#43cea2",
-                  backgroundGradientFromOpacity:1.0,
-                  backgroundGradientToOpacity:0.0,
+                backgroundColor: "#00000",
+                backgroundGradientFrom: "#15D66F",
+                backgroundGradientTo: "#75FB7B",
                 decimalPlaces: 2, // optional, defaults to 2dp
                 color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
                 labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
@@ -176,77 +174,61 @@ const ChartPage = ({ navigation }) => {
                   borderRadius: 16
                 },
                 propsForDots: {
-                  r: "6",
-                  strokeWidth: "2",
+                  r: "2.5",
+                  strokeWidth: "1",
                   stroke: "#ffa726"
                 }
               }}
               bezier
               style={{
-                marginVertical: 8,
+                marginVertical: 16,
                 borderRadius: 16
               }}
           
             />
           <Circle/>
-          <Button
+          <AppButton
             title="Track Weight"
             onPress={() => navigation.navigate('WeightPage')}
-            style={styles.button}
           />
           <Timer />
-          <Button
+          <AppButton
             title="Back"
             onPress={() => navigation.navigate('Page3')}
-            style={styles.button}
           />
           </View>
-          </LinearGradient>
           
   );
 };
 
 const WeightPage = ({ navigation }) => {
   return(
-         <LinearGradient
-           colors={['#43cea2', '#00b0ff']}
-           style={{ flex: 1 }}
-         >
   <View style={styles.container}>
     <Text style={styles.text}>How much do you weigh(in lbs) right now?</Text>
     <InputComponent/>
-         <InputComponent/>
+    <InputComponent/>
   </View>
-         </LinearGradient>
+
   )
 };
 
 const OnBoardingPage = ({ navigation }) => {
   return (
-          <LinearGradient
-            colors={['#43cea2', '#00b0ff']}
-            style={{ flex: 1 }}
-          >
           <View style={styles.container}>
-            <Text style={styles.text}>Welcome to the app!</Text>
-            <Text style={styles.text}>This is your onboarding page.</Text>
+            <Text style={styles.text}>LTFit</Text>
           <AppButton
             title="Next"
             onPress={() => navigation.navigate('Page1')}
+
           />
           <MyGraph/>
           </View>
-          </LinearGradient>
   );
 };
 
 
 const Page1 = ({ navigation }) => {
   return (
-          <LinearGradient
-            colors={['#43cea2', '#00b0ff']}
-            style={{ flex: 1 }}
-          >
           <View style={styles.container}>
 
                 <Text style={styles.text}>How many days per week do you want to spend on this goal?</Text>
@@ -281,16 +263,11 @@ const Page1 = ({ navigation }) => {
             onPress={() => navigation.navigate('OnBoardingPage')}
           />
               </View>
-          </LinearGradient>
   );
 };
 
 const Page2 = ({ navigation }) => {
     return (
-            <LinearGradient
-              colors={['#43cea2', '#00b0ff']}
-              style={{ flex: 1 }}
-            >
             <View style={OnboardingStyles.container}>
                   <Text style={styles.text}>How much time per day can you put in?</Text>
             <View style ={OnboardingStyles.buttonContainer}>
@@ -325,16 +302,11 @@ const Page2 = ({ navigation }) => {
               onPress={() => navigation.navigate('Page1')}
             />
                 </View>
-            </LinearGradient>
     );
 };
 
 const Page3 = ({ navigation }) => {
   return (
-          <LinearGradient
-            colors={['#43cea2', '#00b0ff']}
-            style={{ flex: 1 }}
-          >
           <View style={OnboardingStyles.container}>
             <Text style={styles.text}>When do you want us to notify you?</Text>
           <AppButton
@@ -346,16 +318,11 @@ const Page3 = ({ navigation }) => {
               title="Back"
               />
           </View>
-          </LinearGradient>
   );
 };
 
 const PersonalGoalsPage = ({ navigation }) => {
     return (
-            <LinearGradient
-              colors={['#43cea2', '#00b0ff']}
-              style={{ flex: 1 }}
-            >
             <View style={OnboardingStyles.container}>
               <Text style={styles.text}>Your current weight</Text>
             <Text style={styles.text}>67.8kg</Text>
@@ -367,7 +334,6 @@ const PersonalGoalsPage = ({ navigation }) => {
             />
               </View>
 
-            </LinearGradient>
             
             )
 };
@@ -407,6 +373,7 @@ container: {
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
+backgroundColor:'#F7FAE3'
 },
 buttonContainer: {
   flexDirection: 'row',
@@ -426,11 +393,14 @@ container: {
   flex: 1,
   alignItems: 'center',
   justifyContent: 'center',
-    padding: 10
+    padding: 10,
+    backgroundColor:'#F7FAE3'
 },
 text: {
   fontSize: 20,
   fontWeight: 'bold',
+  color:'#15D66F',
+    fontFamily: 'Arial'
 },
 button:{
 alignItems: 'center',
@@ -458,7 +428,7 @@ const TimerStyles = StyleSheet.create({
   timerText: {
     fontSize: 20,
     fontWeight: 'bold',
-    color: '#333',
+    color:'#15D66F'
   },
 });
 
@@ -473,11 +443,22 @@ const ButtonStyles = StyleSheet.create({
   },
   appButtonText: {
     fontSize: 18,
-    color: "#00b0ff",
+    color:'#15D66F',
     fontWeight: "bold",
     alignSelf: "center",
     textTransform: "uppercase"
   }
+});
+
+const chartStyles = StyleSheet.create(
+{
+container: {
+  flex: 1,
+  alignItems: 'center',
+  justifyContent: 'center',
+    padding: 10,
+backgroundColor:'#F7FAE3'
+},
 });
 
 
