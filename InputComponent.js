@@ -16,15 +16,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'center'
     },
     input: {
         width: 200,
         height: 40,
         borderColor: 'gray',
         borderWidth: 1,
-        margin: 10,
-        padding: 10,
+        margin: 0,
+        padding: 0,
     },
     text: {
         margin: 10,

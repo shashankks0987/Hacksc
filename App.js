@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, TouchableOpacity, TouchableWithoutFeedback, Image } from 'react-native';
 import { Animated,  Dimensions } from 'react-native';
 import { Constants } from 'expo';
 import { NavigationContainer } from '@react-navigation/native';
@@ -12,6 +12,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import InputComponent from './InputComponent';
 import Circle from './CircleComponent';
 import MyGraph from './NewGraphComponent';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 const Stack = createStackNavigator();
 
@@ -131,6 +132,7 @@ const PlusPage = ({navigation}) => {
         return (
                 <View style={chartStyles.container}>
                 <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your predicted progress for +15 mins</Text>
+                <View style={{width:10, height: 30}}/>
                   <BarChart horizontal={true} showBarTops
                     data={{
                       labels: createLabels(dataArray.length),
@@ -144,7 +146,7 @@ const PlusPage = ({navigation}) => {
                         }
                       ]
                     }}
-                    width={Dimensions.get("window").width} // from react-native
+                    width={Dimensions.get("window").width*0.95} // from react-native
                     height={Dimensions.get("window").height/2.5}
                    // yAxisLabel="$"
                     yAxisSuffix=""
@@ -156,7 +158,7 @@ const PlusPage = ({navigation}) => {
                         backgroundGradientToOpacity:0,
                         backgroundGradientFromOpacity:0,
                       decimalPlaces: 2, // optional, defaults to 2dp
-                      color: (opacity = 1) => `rgba(100, 149, 237, ${opacity})`,
+                      color: (opacity = 1) => `rgba(11, 198, 84, ${opacity})`,
                       labelColor: (opacity = 1) => "#2D2D2D",
                       propsForDots: {
                         r: "2.5",
@@ -165,7 +167,14 @@ const PlusPage = ({navigation}) => {
                       }
                     }}
                   />
-                <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
+                <Text style={{fontSize: 20, color:'#15D66F'}}>You're going to reach your goal in </Text>
+                <View style ={{width:20,height:20}} />
+                <BlackLabel
+                onPress={() =>
+                    console.log('You tapped the button!')}
+                title={dataArray.length}
+                subtitle = "days"/>
+                <View style ={{width:20,height:50}} />
                 <AppButton
                   title="Back"
                   onPress={() => navigation.navigate('ChartPage')}
@@ -187,7 +196,8 @@ const MinusPage = ({navigation}) => {
 }, []);
         return (
                 <View style={chartStyles.container}>
-                <Text style={{fontSize: 40,fontWeight: 'bold', color:'#15D66F'}}>Your predicted progress for -15 mins</Text>
+                <Text style={{fontSize: 40,fontWeight: 'bold', color:'#F74750'}}>Your predicted progress for -15 mins</Text>
+                <View style={{width:10, height: 30}}/>
                 <BarChart horizontal={true} showBarTops
                     data={{
                       labels: createLabels(dataArray.length),
@@ -197,11 +207,11 @@ const MinusPage = ({navigation}) => {
                               dataArray? dataArray : []
                           ,
                         strokeWidth: 50,
-                        color: (opacity = 1) => `rgba(57,255,20,1)`
+                        color: (opacity = 1) => `rgba(247,71,80,1)`
                         }
                       ]
                     }}
-                    width={Dimensions.get("window").width} // from react-native
+                    width={Dimensions.get("window").width*0.95} // from react-native
                     height={Dimensions.get("window").height/2.5}
                    // yAxisLabel="$"
                     yAxisSuffix=""
@@ -213,7 +223,7 @@ const MinusPage = ({navigation}) => {
                         backgroundGradientToOpacity:0,
                         backgroundGradientFromOpacity:0,
                       decimalPlaces: 2, // optional, defaults to 2dp
-                      color: (opacity = 1) => `rgba(100, 149, 237, ${opacity})`,
+                      color: (opacity = 1) => `rgba(247,71,80, ${opacity})`,
                       labelColor: (opacity = 1) => "#2D2D2D",
                       propsForDots: {
                         r: "2.5",
@@ -222,7 +232,14 @@ const MinusPage = ({navigation}) => {
                       }
                     }}
                   />
-                <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
+                <Text style={{fontSize: 20, color:'#F74464'}}>You're going to reach your goal in </Text>
+                <View style ={{width:20,height:20}} />
+                <BlackLabel
+                onPress={() =>
+                    console.log('You tapped the button!')}
+                title={dataArray.length}
+                subtitle = "days"/>
+                <View style ={{width:20,height:50}} />
                 <AppButton
                   title="Back"
                   onPress={() => navigation.navigate('ChartPage')}
@@ -234,7 +251,7 @@ const MinusPage = ({navigation}) => {
 function createLabels(length){
   let labels = Array(length).join(".").split(".");
   for (let i = 0; i <= length; i+=5) {
-    labels[i] = '+' + i + 'days'
+    labels[i] = '+' + i + 'd      '
   }
   console.log("LBAELS", labels)
   return labels
@@ -267,7 +284,7 @@ const ChartPage = ({ navigation }) => {
                         }
                       ]
                     }}
-                    width={Dimensions.get("window").width} // from react-native
+                    width={Dimensions.get("window").width*0.95} // from react-native
                     height={Dimensions.get("window").height/2.5}
                    // yAxisLabel="$"
                     yAxisSuffix=""
@@ -279,7 +296,7 @@ const ChartPage = ({ navigation }) => {
                         backgroundGradientToOpacity:0,
                         backgroundGradientFromOpacity:0,
                       decimalPlaces: 2, // optional, defaults to 2dp
-                      color: (opacity = 1) => `rgba(100, 149, 237, ${opacity})`,
+                      color: (opacity = 1) => `rgba(0, 71, 171, ${opacity})`,
                       labelColor: (opacity = 1) => "#2D2D2D",
                       propsForDots: {
                         r: "2.5",
@@ -288,15 +305,31 @@ const ChartPage = ({ navigation }) => {
                       }
                     }}
                   />
-                <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
-                <AppButton
-                  title="Add 15 mins everyday"
-                  onPress={() => navigation.navigate('PlusPage')}
+                <Text style={{fontSize: 20, color:'#15D66F'}}>You're going to reach your goal in </Text>
+                <View style ={{width:20,height:20}} />
+                <BlackLabel
+                onPress={() =>
+                    console.log('You tapped the button!')}
+                title={dataArray.length}
+                subtitle = "days"/>
+                <View style ={{width:20,height:50}} />
+                <View style={styles.space} />
+                <View style={OnboardingStyles.squareContainer}>
+                <GreenSquareButton
+                  title="+15"
+                onPress={() => navigation.navigate('PlusPage')}
+                      subtitle="Mins/Day"
+                                  />
+                <View style={OnboardingStyles.spaceBetweenSquareButtons}/>
+                <RedSquareButton
+                  title="-15"
+                onPress={() => navigation.navigate('MinusPage')}
+                      subtitle="Mins/Day"
+                  
                 />
-                <AppButton
-                  title="Reduce 15 mins everyday"
-                  onPress={() => navigation.navigate('MinusPage')}
-                />
+                </View>
+                <View style ={{width:20,height:30}} />
+                <Text style={{fontSize: 20, color:'#2d2d2d'}}>Tap to see the difference!</Text>
                 </View>
                 
         );
@@ -305,8 +338,8 @@ const ChartPage = ({ navigation }) => {
 
 const WeightPage = ({ navigation}) => {
   return(
-  <View style={styles.container}>
-    <Text style={styles.text}>How much do you weigh(in lbs) right now?</Text>
+  <View style={styles.paddedContainer}>
+    <Text style={styles.paddedText}>How much do you weigh(in lbs) right now?</Text>
     <InputComponent key1={'weight'} number-pad />
          <AppButton
           style={OnboardingStyles.button}
@@ -319,8 +352,8 @@ const WeightPage = ({ navigation}) => {
 
 const GoalPage = ({ navigation}) => {
   return(
-  <View style={styles.container}>
-    <Text style={styles.text}>What's your goal(in lbs)?</Text>
+  <View style={styles.paddedContainer}>
+    <Text style={styles.paddedText}>What's your goal(in lbs)?</Text>
     <InputComponent key1={'goal'} number-pad />
          <AppButton
           style={OnboardingStyles.button}
@@ -334,13 +367,13 @@ const GoalPage = ({ navigation}) => {
 const OnBoardingPage = ({ navigation }) => {
   return (
           <View style={styles.container}>
-            <Text style={styles.text}>LTFit</Text>
-          <AppButton style = {OnboardingStyles.button}
-            title="Next"
-            onPress={() => navigation.navigate('Page2')}
+          <MyImage/>
+          <View style={{ width: 600, height: 500 }} />
 
+          <LoginButton
+            title="Let's Fit!"
+          onPress={() => navigation.navigate('Page2')}
           />
-          <MyGraph/>
           </View>
   );
 };
@@ -458,6 +491,42 @@ const AppButton = ({ onPress, title }) => (
     <Text style={ButtonStyles.appButtonText}>{title}</Text>
   </TouchableOpacity>
 );
+                       const BlackLabel = ({ onPress, title, subtitle }) => (
+                         <TouchableOpacity onPress={onPress} style={ButtonStyles.appButtonContainer}>
+                           <Text style={ButtonStyles.appButtonText}>{title}</Text>
+                            <Text style={ButtonStyles.squareSubtitleText}>{subtitle}</Text>
+                         </TouchableOpacity>
+                       );
+                       
+const RedSquareButton = ({ onPress, title, subtitle }) => (
+                         <TouchableOpacity onPress={onPress} style={ButtonStyles.redAppButtonContainer}>
+                                                 <Text style={ButtonStyles.squareButtonText}>{title}</Text>
+                                                 <Text style={ButtonStyles.squareSubtitleText}>{subtitle}</Text>
+                         </TouchableOpacity>
+                       );
+const GreenSquareButton = ({ onPress, title, subtitle }) => (
+                                                <TouchableOpacity onPress={onPress} style={ButtonStyles.greenAppButtonContainer}>
+                                                                        <Text style={ButtonStyles.squareButtonText}>{title}</Text>
+                                                                        <Text style={ButtonStyles.squareSubtitleText}>{subtitle}</Text>
+                                                </TouchableOpacity>
+                                              );
+const LoginButton = ({ onPress, title}) => (
+                                                                       <TouchableOpacity onPress={onPress} style={ButtonStyles.LoginButtonContainer}>
+                                                                                               <Text style={ButtonStyles.LoginButtonText}>{title}</Text>
+                                                                       </TouchableOpacity>
+                                                                     );
+const BackButton = ({ onPress }) => (
+                                     <TouchableWithoutFeedback>
+                                     <Icon name="md-arrow-round-back" size={16} color="#000" />
+                                     </TouchableWithoutFeedback>
+
+                                              );
+                       const MyImage = () => (
+                         <Image
+                           source={require('./assets/actualLogo.png')}
+                           style={{ width: 200, height: 200 }}
+                         />
+                       );
 
 export default function App() {
     return (
@@ -507,17 +576,31 @@ borderRadius: 10,
     squareButtonContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    width: '95%',
-    paddingVertical:200
+        //backgroundColor:'#F74750',
+        width:100,
+        height:100,
+    borderRadius: 5
+    },
+    squareContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    //backgroundColor:'#F74750',
+    width:"95%",
+    borderRadius: 5
     },
     redSquareButton:{
-        width:250,
-        height:250,
+        width:100,
+        height:100,
     elevation: 5,
-    backgroundColor: '#2D2D2D',
+    backgroundColor: '#F74750',
     padding: 15,
     borderRadius: 50
-    }
+    },
+        spaceBetweenSquareButtons:
+        {
+            widht:20,
+            height: 0
+        },
 });
 
 const styles = StyleSheet.create({
@@ -528,6 +611,22 @@ container: {
     padding: 10,
     backgroundColor:'#FFF4D9'
 },
+    paddedContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+        padding: 10,
+        backgroundColor:'#FFF4D9',
+        paddingBottom:300
+    },
+    loginContainer: {
+      flex: 1,
+      alignItems: 'center',
+      justifyContent: 'center',
+        padding: 10,
+        backgroundColor:'#FFF4D9',
+        marginVertical:100
+    },
 text: {
   fontSize: 22,
   fontWeight: 'bold',
@@ -536,6 +635,15 @@ text: {
     paddingHorizontal:3,
     
 },
+    paddedText: {
+      fontSize: 22,
+      fontWeight: 'bold',
+      color:'#2D2D2D',
+        fontFamily: 'Arial',
+        paddingTop:200
+        
+    },
+        
 button:{
 alignItems: 'center',
 justifyContent: 'center',
@@ -594,12 +702,42 @@ const ButtonStyles = StyleSheet.create({
     alignSelf: "center",
     textTransform: "uppercase"
   },
+    redAppButtonContainer: {
+      elevation: 8,
+      backgroundColor: "#F74750",
+      borderRadius: 5,
+      paddingVertical: 9,
+      paddingHorizontal: 12
+    },
+   greenAppButtonContainer: {
+      elevation: 8,
+      backgroundColor: "#0BC654",
+      borderRadius: 5,
+      paddingVertical: 9,
+      paddingHorizontal: 12
+    },
+    squareButtonText: {
+      fontSize: 55,
+      color:'#fff',
+      fontWeight: "bold",
+      alignSelf: "center",
+      textTransform: "uppercase"
+    },
+    squareSubtitleText:{
+    fontSize: 15,
+    color:'#fff',
+    fontWeight: "bold",
+    alignSelf: "center",
+    textTransform: "uppercase"
+    },
     LoginButtonContainer: {
       elevation: 8,
       backgroundColor: "#79F765",
       borderRadius: 5,
       paddingVertical: 9,
-      paddingHorizontal: 12
+      paddingHorizontal: 12,
+        width:'95%',
+        
     },
     LoginButtonText: {
       fontSize: 18,
