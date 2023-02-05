@@ -13,11 +13,16 @@
     "@react-native-async-storage/async-storage": "^1.17.11",
     "@react-navigation/stack": "^6.3.12",
     "expo": "~47.0.12",
+    "expo-linear-gradient": "^12.0.1",
     "expo-status-bar": "~1.4.2",
     "galio-framework": "^0.8.0",
     "react": "18.1.0",
     "react-dom": "18.1.0",
     "react-native": "0.70.5",
+    "react-native-async-storage": "^0.0.1",
+    "react-native-calendar-events": "^2.2.0",
+    "react-native-chart-kit": "^6.12.0",
+    "react-native-svg": "^13.8.0",
     "react-native-web": "~0.18.9"
   },
   "devDependencies": {
