@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
     },
 });
 
-const InputComponent = () => {
+const InputComponent = ({key1}) => {
     const [weight, setText] = useState('');
 
     const handleTextChange = inputText => {
@@ -62,7 +62,7 @@ const InputComponent = () => {
                     style={styles.button}
                     title="Good to go"
                     onPress={() => {
-                        storeData({weight}, 'weight')
+                        storeData({weight}, key1)
                     }}
                     style={styles.button}
                 />
