@@ -121,7 +121,7 @@ async function getDataArray() {
 
 
 const ChartPage = ({ navigation }) => {
-  const [dataArray, setDataArray] = useState([]);
+  const [dataArray, setDataArray] = useState([0, 0, 0, 0, 0, 0]);
   useEffect(() => {
   const loadData = async () => {
     const result = await getDataArray();
