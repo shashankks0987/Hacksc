@@ -306,10 +306,6 @@ const ChartPage = ({ navigation }) => {
                 <Circle/>
                 <Text style={{fontSize: 20, color:'#15D66F'}}>At this rate, you're going to reach your goal in {dataArray.length} days</Text>
                 <AppButton
-                  title="Back"
-                  onPress={() => navigation.navigate('Page3')}
-                />
-                <AppButton
                   title="Add 15 mins everyday"
                   onPress={() => navigation.navigate('PlusPage')}
                 />
@@ -414,7 +410,7 @@ const Page2 = ({ navigation }) => {
                     title="30 mins"
                     onPress={() => 
                       {
-                        navigation.navigate('Page3')
+                        navigation.navigate('WeightPage')
                         storeData({"time": 0.5}, 'time')
                     }}
                     
@@ -423,7 +419,7 @@ const Page2 = ({ navigation }) => {
             style={OnboardingStyles.button}
               title="1 hour"
               onPress={() =>                       {
-                navigation.navigate('Page3')
+                navigation.navigate('WeightPage')
                 storeData({"time": 1}, 'time')
               }}
             />
@@ -431,7 +427,7 @@ const Page2 = ({ navigation }) => {
             style={OnboardingStyles.button}
               title="1.5 hours"
               onPress={() =>                       {
-                navigation.navigate('Page3')
+                navigation.navigate('WeightPage')
                 storeData({"time": 1.5}, 'time')
               }}
             />
@@ -444,21 +440,6 @@ const Page2 = ({ navigation }) => {
     );
 };
 
-const Page3 = ({ navigation }) => {
-  return (
-          <View style={OnboardingStyles.container}>
-            <Text style={styles.text}>When do you want us to notify you?</Text>
-          <AppButton
-          style={OnboardingStyles.button}
-            title="Next"
-            onPress={() => navigation.navigate('WeightPage')}
-          />
-          <AppButton onPress={() => navigation.navigate('Page2')}
-              title="Back"
-              />
-          </View>
-  );
-};
 
 const PersonalGoalsPage = ({ navigation }) => {
     return (
@@ -495,7 +476,6 @@ export default function App() {
         <Stack.Screen name="OnBoardingPage" component={OnBoardingPage} />
         <Stack.Screen name="Page1" component={Page1} />
         <Stack.Screen name="Page2" component={Page2} />
-        <Stack.Screen name="Page3" component={Page3} />
         <Stack.Screen name="WeightPage" component={WeightPage} />
         <Stack.Screen name="GoalPage" component={GoalPage} />
         <Stack.Screen name="ChartPage" component={ChartPage} />
